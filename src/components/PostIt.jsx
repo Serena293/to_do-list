@@ -2,10 +2,15 @@ import { Component } from "react";
 import { Card, Button } from "react-bootstrap";
 
 class PostIt extends Component {
+    state = {task: '',
+        date:'',
+        important: false
+    }
+    
   render() {
     return (
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
+      <Card className="m-5">
+      
         <Card.Body>
           <Card.Title>Card Title</Card.Title>
           <Card.Text>

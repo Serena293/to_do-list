@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 
 class MyForm extends Component {
     render() {
+        const today = new Date().toISOString().split('T')[0];
         return (
             <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -15,7 +16,7 @@ class MyForm extends Component {
       
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="date" placeholder="When?" />
+              <Form.Control type="date" placeholder="When?" min={today}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Mark as important" />
