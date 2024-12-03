@@ -1,49 +1,97 @@
-import { Component } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { Component } from "react";
+import PostIt from "./PostIt";
 
 class MyForm extends Component {
-    state ={
-        toDo:{
-            task: '',
-            date: '',
-            important: false
-        }
+  state = {
+    toDo: {
+      task: "",
+      date: "",
+      important: false,
+    },
+    tasks: [],
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { toDo, tasks } = this.state;
+
+    if (!toDo.task || !toDo.date) {
+      alert("Please fill in all fields.");
+      return;
     }
+
+    this.setState({
+      tasks: [...tasks, toDo],
+      toDo: {
+        task: "",
+        date: "",
+        important: false,
+      },
+    });
+  };
+
+  handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    this.setState({
+      toDo: {
+        ...this.state.toDo,
+        [name]: type === "checkbox" ? checked : value,
+      },
+    });
+  };
+
   render() {
     const today = new Date().toISOString().split("T")[0];
-    const { task, date, important } = this.state.toDo;
-    return (
-      <Form>
-        <Form.Group className="mb-3" >
-          <Form.Label>Task:</Form.Label>
-          <Form.Control type="text" placeholder="Remember to.." 
-          value={task}
-          onChange={(e)=>{this.setState({toDo:{...this.state.toDo,
-            task:e.target.value
-          }})}}/>
-        </Form.Group>
+    const { toDo, tasks } = this.state;
 
-        <Form.Group className="mb-3" >
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="date" placeholder="When?" min={today}
-          value={date} 
-          onChange={(e)=>{this.setState({toDo:{...this.state.toDo,
-            date:e.target.value
-          }})}}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" >
-          <Form.Check type="checkbox" label="Mark as important"
-          checked={important} 
-          onChange={(e)=>{this.setState({toDo:{...this.state.toDo,
-            important:e.target.checked
-          }})}}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Save
-        </Button>
-      </Form>
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="mb-3">
+            <label>Task:</label>
+            <input
+              type="text"
+              name="task"
+              placeholder="Remember to..."
+              value={toDo.task}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label>Date:</label>
+            <input
+              type="date"
+              name="date"
+              min={today}
+              value={toDo.date}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label>
+              <input
+                type="checkbox"
+                name="important"
+                checked={toDo.important}
+                onChange={this.handleChange}
+              />
+              Mark as important
+            </label>
+          </div>
+
+          <button type="submit">Save</button>
+        </form>
+
+        <div className="post-it-list">
+          {tasks.map((task, index) => (
+            <PostIt key={index} task={task} />
+          ))}
+        </div>
+      </div>
     );
   }
 }

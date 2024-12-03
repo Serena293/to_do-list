@@ -11,7 +11,7 @@ function App() {
       </header>
 <main>
   <MyForm></MyForm>
-   <PostIt></PostIt>
+  
 </main>
 
    
